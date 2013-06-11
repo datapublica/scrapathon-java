@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scrapathon - Java</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/reveal.min.css" />
+    <link rel="stylesheet" href="css/theme/default.css" id="theme" />
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write('<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">');
+    </script>
+    <!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="./resources/css/style.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Start -->
+        <section>
+          <h1>Scrapathon</h1>
+          <h3>Extraire des données depuis le web en Java</h3>
+          <p class="centered">
+            <small>Powered by <a href="http://www.dudouet.fr">Thomas Dudouet</a> / <a href="http://twitter.com/tdudouet">@tdudouet</a></small>
+          </p>
+        </section>
+        <!-- Plan -->
+        <section>
+          <h2>Contenu de la présentation</h2>
+          <ul>
+            <li>Techniques de scraping</li>
+            <li>Scraper le web avec Java</li>
+            <li>Scraper le web avec Web Harvest</li>
+            <li>C'est à vous !</li>
+          </ul>
+        </section>
+        <!-- Tech -->
+        <section>
+          <section>
+            <h2>Techniques de scraping</h2>
+            <ul>
+              <li>
+                <p><b>Expressions rationnelles</b> (régulières) (regex)</p>
+                <p>On extrait le code source de la page, puis on applique des motifs d'extraction dessus, comme s'il s'agissait de texte brut.</p>
+              </li>
+              <li>
+                <p><b>XPath</b></p>
+                <p>On extrait le code source de la page, on le normalise en un flux XML valide, puis on applique des expressions d'extraction sur le DOM.</p>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Expressions rationnelles</h2>
+            <table class="full">
+              <tr>
+                <td><img src="./resources/img/regex_01.png" /></td>
+                <td><img src="./resources/img/regex_03.png" /></td>
+              </tr>
+              <tr>
+                <td><img src="./resources/img/regex_02.png" /></td>
+                <td><img src="./resources/img/regex_04.png" /></td>
+              </tr>
+            </table>
+            <br />
+            <br />
+            <p class="centered"><small>Source : <a href="http://culot.org/public/Docs/regexp.html">http://culot.org/public/Docs/regexp.html</a></small></p>
+          </section>
+          <section>
+            <h2>XPath</h2>
+            <pre><code data-trim>
+&lt;?xml version="1.0"?&gt;
+&lt;racine&gt;
+  &lt;encyclopedie nom="Wikipedia" site="http://fr.wikipedia.org/"&gt;
+    &lt;article nom="XPath"&gt;   
+      &lt;auteurs&gt;
+        &lt;auteur&gt;
+          &lt;nom&gt;Dupont&lt;/nom&gt;
+        &lt;/auteur&gt;
+        &lt;auteur&gt;
+          &lt;nom&gt;Dubois&lt;/nom&gt;
+        &lt;/auteur&gt;
+      &lt;/auteurs&gt;
+    &lt;/article&gt;
+  &lt;/encyclopedie&gt;
+&lt;/racine&gt;
+            </code></pre>
+            <table class="full" id="xpath">
+              <tr>
+                <td><code>//article</code></td>
+                <td>Sélectionne les éléments "article"</td>
+              </tr>
+              <tr>
+                <td><code>/racine/encyclopedie</code></td>
+                <td>Sélectionne les éléments "encyclopedie" qui sont fils d'éléments "racine"</td>
+              </tr>
+              <tr>
+                <td><code>//article[@nom='XPath']</code></td>
+                <td>Sélectionne les éléments "article" dont l'attribut "nom" vaut "XPath"</td>
+              </tr>
+              <tr>
+                <td><code>//article[1]/auteurs/auteur[2]</code></td>
+                <td>Sélectionne le second auteur (Dubois) du premier article</td>
+              </tr>
+            </table>
+            <br />
+            <br />
+            <p class="centered"><small>Source : <a href="http://fr.wikipedia.org/wiki/XPath">http://fr.wikipedia.org/wiki/XPath</a></small></p>
+          </section>
+        </section>
+        <!-- Java -->
+        <section>
+          <section>
+            <h2>Scraper le web avec Java</h2>
+            <ul>
+              <li>Récupérer le contenu de pages web</li>
+              <li>Extraire des données en utilisant regex</li>
+              <li>Extraire des données en utilisant xpath</li>
+            </ul>
+            <br />
+            <br />
+            <p class="centered">Ressources et exemples disponibles sur github</p>
+            <p class="centered"><a href="https://github.com/datapublica/jscraping-tools">https://github.com/datapublica/jscraping-tools</a></p>
+          </section>
+          <section>
+            <h2>Scraper le web avec Java</h2>
+            <h3>Récupérer le contenu de pages web</h3>
+            <br />
+            <p>Utiliser la classe <a href="https://github.com/datapublica/jscraping-tools/blob/master/io/src/main/java/com/datapublica/scraping/io/ScrapingIOUtils.java"><code>ScrapingIOUtils</code></a> qui permet de récupérer le contenu d'une page web sous forme d'une <code>String</code> ou sous forme d'un <code>InputStream</code>.</p>
+            <p>Cette classe gère instinctivement les problèmes d'encodage, de compression des réponses, etc...</p>
+            <br />
+            <pre><code data-trim>
+URL url = new URL("http://www.data-publica.com");
+String html = ScrapingIOUtils.getResourceAsString(url);
+try(InputStream stream = ScrapingIOUtils.getResourceAsStream(url)) {
+    // Do something with streamed data
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>Scraper le web avec Java</h2>
+            <h3>Extraire des données en utilisant regex</h3>
+            <br />
+            <p>Utiliser les classes du package <code>java.util.regex</code> (jdk).</p>
+            <p>Normaliser le texte extrait (suppression des entités html) avec la classe <code>StringEscapeUtils</code> (<a href="http://commons.apache.org/proper/commons-lang/javadocs/api-2.6/">Projet Apache</a>).</p>
+            <br />
+            <pre><code data-trim>
+Pattern links = Pattern.compile("&lt;a.+href=\"(.+?)\".*&gt;(.+?)&lt;/a&gt;");
+Matcher m = links.matcher(html);
+while(m.find()) {
+    String href = StringEscapeUtils.unescapeHtml(m.group(1));
+    String text = StringEscapeUtils.unescapeHtml(m.group(2));
+    System.out.println(text + " &gt; " + href);
+}
+            </code></pre>
+            <pre><code data-trim>
+Offre &gt; http://www.data-publica.com/content/offer
+Société &gt; http://www.data-publica.com/content/
+...
+            </code></pre>
+          </section>
+          <section>
+            <h2>Scraper le web avec Java</h2>
+            <h3>Extraire des données en utilisant xpath</h3>
+            <br />
+            <p>Utiliser la classe <a href="https://github.com/datapublica/jscraping-tools/blob/master/xpath/src/main/java/com/datapublica/scraping/xpath/XPathUtils.java"><code>XPathUtils</code></a> qui contient les méthodes :</p>
+            <ul>
+              <li><code><b>getDocumentHTML</b></code> : construit DOM valide à partir d'un flux HTML</li>
+              <li><code><b>getDocumentXML</b></code> : parse un flux XML et retourne le DOM correspondant</li>
+              <li><code><b>getNodes</b></code> : retourne une liste de noeuds du DOM extraits grâce à une expression xpath</li>
+              <li><code><b>getString</b></code> : retourne une chaîne de caractères grâce à une expression xpath ne renvoyant qu'un noeud texte</li>
+              <li><code><b>unescape</b></code> : normalise une chaîne de caractères (suppression des entités HTML et des espaces inutiles)</li>
+            </ul>
+            <br />
+          </section>
+          <section>
+            <h2>Scraper le web avec Java</h2>
+            <h3>Extraire des données en utilisant xpath</h3>
+            <br />
+            <pre><code data-trim>
+try(InputStream stream = ScrapingIOUtils.getResourceAsStream(url)) {
+ // Get a valid XML stream.
+ Document doc = XPathUtils.getDocumentHTML(stream, "UTF-8");
+ // Print page title
+ String title = XPathUtils.getString(doc, "//head/title/text()");
+ System.out.println(title);
+ // Get all links
+ NodeList nodes = XPathUtils.getNodes(doc, "//a[@href and text()]");
+ for(int i=0 ; i&lt;nodes.getLength() ; i++) {
+  Node node = nodes.item(i);
+  Node attr = node.getAttributes().getNamedItem("href");
+  String href = XPathUtils.unescape(attr.getNodeValue());
+  String text = XPathUtils.unescape(node.getTextContent());
+  System.out.println(text + " &gt; " + new URL(url, href));
+ }
+}
+            </code></pre>
+            <pre><code data-trim>
+Data Publica | Les données pour votre business
+Offre > http://www.data-publica.com/content/offer
+Société > http://www.data-publica.com/content/
+clients > http://www.data-publica.com/content/clients
+S'inscrire > http://www.data-publica.com/register
+...
+            </code></pre>
+          </section>
+        </section>
+        <!-- WH -->
+        <section>
+          <section>
+            <h2>Scraper le web avec Web Harvest</h2>
+            <br />
+            <p><b>Web Harvest</b> est un outil open-source d'extraction de données web.</p>
+            <p>Les scrapers se configurent via un fichier XML, et peuvent être étendus grâce au développement de plugins en Java.</p>
+            <p>Une GUI est également disponible (attention aux yeux).</p>
+            <br />
+            <p class="centered"><small><a href="http://web-harvest.sourceforge.net/">http://web-harvest.sourceforge.net/</a></small></p>
+          </section>
+          <section>
+            <h2>Scraper le web avec Web Harvest</h2>
+            <pre style="width: 100%;"><code style="max-height: 800px;" data-trim>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config&gt;
+ &lt;var-def name="root"&gt;http://www.data-publica.com&lt;/var-def&gt;
+ &lt;loop item="href"&gt;
+  &lt;list&gt;
+   &lt;xpath expression="//a/@href"&gt;
+    &lt;html-to-xml&gt;
+     &lt;http url="${root}" /&gt;
+    &lt;/html-to-xml&gt;
+   &lt;/xpath&gt;
+  &lt;/list&gt;
+  &lt;body&gt;
+   &lt;var-def name="url"&gt;
+    &lt;template&gt;${sys.fullUrl(root, href)}&lt;/template&gt;
+   &lt;/var-def&gt;
+   &lt;var-def name="title"&gt;
+    &lt;xpath expression="//head/title/text()"&gt;
+     &lt;html-to-xml&gt;
+      &lt;http url="${url}" /&gt;
+     &lt;/html-to-xml&gt;
+    &lt;/xpath&gt;
+   &lt;/var-def&gt;
+   &lt;file action="append" path="/Users/thomas/Desktop/scrapathon.output"&gt;
+    &lt;template&gt;${url}     ${title} ${sys.lf}&lt;/template&gt;
+   &lt;/file&gt;
+  &lt;/body&gt;
+ &lt;/loop&gt;
+&lt;/config&gt;
+            </code></pre>
+          </section>
+        </section>
+        <!-- Exercices -->
+        <section>
+          <h2>C'est à vous !</h2>
+          <br />
+          <p><b>Objectif</b></p>
+          <p>Récupérer les résultats du moteur de recherche de <a href="http://data.gouv.fr">http://data.gouv.fr</a> pour une requête donnée.</p>
+          <ul>
+            <li>Lien vers la page de la publication</li>
+            <li>Titre de la publication</li>
+            <li>Date de publication</li>
+            <li>Nom de l'éditeur</li>
+            <li>Mots-clef</li>
+            <li>Format(s) de la donnée</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <!-- Scripts -->
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: 'moon',
+        transition: 'default',
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+    </script>
+  </body>
+</html>

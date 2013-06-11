@@ -1,0 +1,27 @@
+.full {
+  width: 100%;
+}
+
+table.full td:nth-child(1) {
+  text-align: left;
+}
+
+table.full td:nth-child(2) {
+  text-align: right;
+}
+
+b {
+  color: #EEE8D5;
+}
+
+table#xpath {
+  font-size: 14pt;
+}
+
+p {
+  text-align: left;
+}
+
+.centered {
+  text-align: center;
+}
