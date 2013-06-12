@@ -27,18 +27,58 @@
           <h1>Scrapathon</h1>
           <h3>Extraire des données depuis le web en Java</h3>
           <p class="centered">
-            <small>Powered by <a href="http://www.dudouet.fr">Thomas Dudouet</a> / <a href="http://twitter.com/tdudouet">@tdudouet</a></small>
+            <small><a href="http://www.dudouet.fr">Thomas Dudouet</a> / <a href="http://twitter.com/tdudouet">@tdudouet</a> / <a href="http://twitter.com/datapublica">@datapublica</a></small>
           </p>
         </section>
         <!-- Plan -->
         <section>
           <h2>Contenu de la présentation</h2>
           <ul>
+            <li>Extraction de données depuis le web</li>
             <li>Techniques de scraping</li>
             <li>Scraper le web avec Java</li>
             <li>Scraper le web avec Web Harvest</li>
             <li>C'est à vous !</li>
           </ul>
+        </section>
+        <!-- What -->
+        <section>
+          <section>
+            <h2>Extraction de données depuis le web</h2>
+            <br />
+            <p>Deux techniques majeures :</p>
+            <ul>
+              <li><b>Web crawling</b> : on part d'une liste d'URL (la seed), on extrait des informations de ces pages, et on recommence le processus avec les liens détectés en leur sein</li>
+              <p>&raquo; Gros volume de données, mais pas de structuration</p>
+              <li><b>Web scraping</b> : on analyse la structure HTML des pages d'un site précis (ou plus généralement un sous-ensemble), et on extrait de l'information ciblée</li>
+              <p>&raquo; Volume de données plus faible, mais très structuré</p>
+            </ul>
+          </section>
+          <section>
+            <h2>Extraction de données depuis le web</h2>
+            <h3>Web crawling</h3>
+            <br />
+            <ul>
+              <li>Pas de connaissance du site, suivi des liens à l'aveugle</li>
+              <li>Type de données extraites : titres, texte, liens hypertextes</li>
+            </ul>
+            <br />
+            <br />
+            <p><b>Cas d'utilisation :</b> Moteurs de recherche (Google), analyse de liens entrants/sortants,...</p>
+          </section>
+          <section>
+            <h2>Extraction de données depuis le web</h2>
+            <h3>Web scraping</h3>
+            <br />
+            <ul>
+              <li>Reconstitution d'une base de données via un parcours connu et maîtrisé du site</li>
+              <li>Fortement lié à un site (extraction spécifique)</li>
+            </ul>
+            <br />
+            <br />
+            <p><b>Cas d'utilisation :</b> Récupération de données ciblées et structurées (voir <a href="http://resultats.lesprimairescitoyennes.fr/">http://resultats.lesprimairescitoyennes.fr/</a>)</p>
+          </section>
+          </section>
         </section>
         <!-- Tech -->
         <section>
